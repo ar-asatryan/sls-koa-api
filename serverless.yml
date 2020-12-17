@@ -1,0 +1,30 @@
+service: sls-koa-api
+frameworkVersion: '>=1.1.0 <= 2.2.0'
+plugins:
+  - serverless-offline
+  - serverless-webpack
+  - serverless-s3-local
+  - serverless-offline-sns
+  - serverless-secrets-plugin
+  - sls-plugin-dynamodb-offline
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+
+  environment:
+    STAGE: dev
+    GOOGLE_MAPS_API_KEY: key1188
+
+functions:
+  koa:
+    handler: sls/koa.ts
+    events:
+      - http:
+          path: first
+          method: GET
+      - http:
+          path: second
+          method: POST
+
+
