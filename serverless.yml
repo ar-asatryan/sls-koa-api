@@ -27,4 +27,41 @@ functions:
           path: second
           method: POST
 
-
+#custom:
+#  tableName: 'users-tb-${self:provider.stage}'
+#  defaults:
+#    dynamoDbTableDeletionPolicy: >-
+#      ${self:custom.secrets.DB_TABLES_DELETION_POLICY,
+#      self:provider.environment.DB_TABLES_DELETION_POLICY}
+#    stage: local
+#    ports:
+#      dynamodb: "2525"
+#      sls: "3030"
+#      sns: "3535"
+#      s3: "4040"
+#  dynamodb:
+#    start:
+#      dbPath: /usr/local/tmp/sls-koa-api
+#      delayTransientStatuses: true # More real life experience
+#      migrate: true # Create tables after startup
+#      port: "${self:custom.defaults.ports.dynamodb}"
+#      sharedDb: true # Necessary for the local instances to work correctly
+#      stream:
+#        readInterval: 1000
+#resources:
+#  Resources:
+#    UsersDynamoDBTable:
+#      Type: 'AWS::DynamoDB::Table'
+#      Properties:
+#        AttributeDefinitions:
+#          -
+#            AttributeName: userID
+#            AttributeType: S
+#        KeySchema:
+#          -
+#            AttributeName: userID
+#            KeyType: HASH
+#        ProvisionedThroughput:
+#          ReadCapacityUnits: 1
+#          WriteCapacityUnits: 1
+#        TableName: ${self:custom.tableName}
